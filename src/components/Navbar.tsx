@@ -1,0 +1,178 @@
+import React, { useState, useEffect } from 'react';
+import { Menu, X, Shield, MessageCircle, Settings } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+
+interface NavbarProps {
+  onOpenAdmin: () => void;
+  isAdminLoggedIn: boolean;
+  onLogoutAdmin: () => void;
+}
+
+export default function Navbar({ onOpenAdmin, isAdminLoggedIn, onLogoutAdmin }: NavbarProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const menuItems = [
+    { label: 'Home', href: '#home' },
+    { label: 'Showroom', href: '#products' },
+    { label: 'Our Services', href: '#services' },
+    { label: 'Device Swap', href: '#swap' },
+    { label: 'About Us', href: '#about' },
+    { label: 'Gallery', href: '#gallery' },
+    { label: 'Contact', href: '#contact' },
+  ];
+
+  return (
+    <>
+      <nav
+        id="navbar"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled 
+            ? 'bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm py-3' 
+            : 'bg-white/80 backdrop-blur-sm border-b border-slate-100/50 py-4'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <a href="#home" className="flex items-center space-x-3 group text-left">
+              <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-blue-600 text-white shadow-sm transition-all duration-300">
+                <span className="text-lg font-bold font-sans tracking-tighter">JM</span>
+              </div>
+              <div>
+                <h1 className="text-base sm:text-lg font-black tracking-tight text-slate-900 flex items-center gap-1.5 font-sans">
+                  JMirth
+                  <span className="text-blue-600 font-bold text-[10px] tracking-wider uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                    GADGETS
+                  </span>
+                </h1>
+                <p className="text-[10px] text-slate-500 font-medium font-sans">No.1 Best Quality Haven</p>
+              </div>
+            </a>
+
+            {/* Desktop Navigation Link Deck */}
+            <div className="hidden lg:flex items-center space-x-7">
+              {menuItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="text-xs font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 transition-colors duration-200 relative group py-2"
+                >
+                  {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              ))}
+            </div>
+
+            {/* CTA & Admin Trigger */}
+            <div className="hidden md:flex items-center space-x-3">
+              {isAdminLoggedIn && (
+                <button
+                  id="admin-logout-btn"
+                  onClick={onLogoutAdmin}
+                  className="flex items-center space-x-1 px-3 py-2 rounded-xl border border-red-200 bg-red-50 text-red-600 text-xs font-bold uppercase tracking-wider hover:bg-red-100 hover:text-red-700 transition-colors cursor-pointer"
+                >
+                  <span>Logout</span>
+                </button>
+              )}
+              
+              <button
+                id="admin-portal-btn"
+                onClick={onOpenAdmin}
+                className="flex items-center space-x-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 text-xs font-bold uppercase tracking-wider hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer"
+                title="Manage Shop Inventory (CMS)"
+              >
+                <Settings className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-600 shrink-0" />
+                <span>{isAdminLoggedIn ? 'Dashboard' : 'Store Admin'}</span>
+              </button>
+
+              <a
+                href="https://wa.me/2349061563862"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold uppercase tracking-widest hover:bg-blue-700 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer active:scale-95"
+              >
+                <MessageCircle className="w-4 h-4 fill-white text-blue-600 shrink-0" />
+                <span>WhatsApp Shop</span>
+              </a>
+            </div>
+
+            {/* Mobile Menu Action Trigger */}
+            <div className="lg:hidden flex items-center space-x-2">
+              <button
+                id="mobile-admin-btn"
+                onClick={onOpenAdmin}
+                className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-blue-600"
+              >
+                <Settings className="w-4 h-4" />
+              </button>
+              <button
+                id="mobile-menu-toggle"
+                onClick={() => setIsOpen(!isOpen)}
+                className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 focus:outline-none"
+              >
+                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Dropdown Slide Panel */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="lg:hidden border-b border-slate-100 bg-white shadow-lg"
+            >
+              <div className="px-4 pt-2 pb-6 space-y-1">
+                {menuItems.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-all"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+                <div className="pt-4 border-t border-slate-100 flex flex-col space-y-2 px-4">
+                  {isAdminLoggedIn && (
+                    <button
+                      onClick={() => {
+                        onLogoutAdmin();
+                        setIsOpen(false);
+                      }}
+                      className="w-full text-center py-2.5 px-4 rounded-xl border border-red-200 bg-red-50 text-red-600 text-xs font-bold uppercase tracking-wider cursor-pointer"
+                    >
+                      Logout Admin Mode
+                    </button>
+                  )}
+                  <a
+                    href="https://wa.me/2349061563862"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center space-x-2 w-full py-3 px-4 rounded-xl bg-blue-600 text-white text-xs font-bold uppercase tracking-wider text-center cursor-pointer hover:bg-blue-700"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-white text-blue-600" />
+                    <span>WhatsApp Live Chat</span>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+    </>
+  );
+}

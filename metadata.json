@@ -1,0 +1,6 @@
+{
+  "name": "JMirth Gadget Haven",
+  "description": "Premium modern responsive website for a trusted Nigerian electronics, appliance, and device swap store.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
