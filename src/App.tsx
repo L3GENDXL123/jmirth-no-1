@@ -1,53 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { INITIAL_PRODUCTS, INITIAL_GALLERY, FAMOUS_BRANDS } from './data';
-import { Product, GalleryItem } from './types';
+import { INITIAL_PRODUCTS, FAMOUS_BRANDS } from './data';
+import { Product } from './types';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
 import ProductDetailsModal from './components/ProductDetailsModal';
-import SwapCalculator from './components/SwapCalculator';
-import Services from './components/Services';
 import About from './components/About';
-import GallerySection from './components/GallerySection';
-import ContactSection from './components/ContactSection';
-import AdminPanel from './components/AdminPanel';
-import { MessageCircle, Sparkles } from 'lucide-react';
+import { MessageCircle, Sparkles, Instagram } from 'lucide-react';
 import { AnimatePresence } from 'motion/react';
+import heroBannerImg from './assets/images/hero_banner_1779826991927.png';
 
 export default function App() {
-  // Persistence state
-  const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('jmirth_products');
-    return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
-  });
+  // Clear any existing cached stale products to ensure only the three phones are displayed
+  useEffect(() => {
+    localStorage.removeItem('jmirth_products');
+    localStorage.removeItem('jmirth_gallery');
+  }, []);
 
-  const [gallery, setGallery] = useState<GalleryItem[]>(() => {
-    const saved = localStorage.getItem('jmirth_gallery');
-    return saved ? JSON.parse(saved) : INITIAL_GALLERY;
-  });
-
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
-    return localStorage.getItem('jmirth_admin_logged') === 'true';
-  });
+  // Use the clean static array directly for the catalog
+  const [products] = useState<Product[]>(INITIAL_PRODUCTS);
 
   // UI state
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<string>('all');
   const [showScrollTop, setShowScrollTop] = useState(false);
-
-  // Sync to local storage when state updates
-  useEffect(() => {
-    localStorage.setItem('jmirth_products', JSON.stringify(products));
-  }, [products]);
-
-  useEffect(() => {
-    localStorage.setItem('jmirth_gallery', JSON.stringify(gallery));
-  }, [gallery]);
-
-  useEffect(() => {
-    localStorage.setItem('jmirth_admin_logged', String(isAdminLoggedIn));
-  }, [isAdminLoggedIn]);
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -56,31 +32,6 @@ export default function App() {
     window.addEventListener('scroll', toggleVisibility);
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
-
-  // Action listeners
-  const handleAddProduct = (newP: Product) => {
-    setProducts(prev => [newP, ...prev]);
-  };
-
-  const handleUpdateProduct = (updatedP: Product) => {
-    setProducts(prev => prev.map(p => p.id === updatedP.id ? updatedP : p));
-  };
-
-  const handleDeleteProduct = (id: string) => {
-    setProducts(prev => prev.filter(p => p.id !== id));
-  };
-
-  const handleAddGalleryItem = (newG: GalleryItem) => {
-    setGallery(prev => [newG, ...prev]);
-  };
-
-  const handleDeleteGalleryItem = (id: string) => {
-    setGallery(prev => prev.filter(g => g.id !== id));
-  };
-
-  const handleLogoutAdmin = () => {
-    setIsAdminLoggedIn(false);
-  };
 
   const handleScrollTop = () => {
     window.scrollTo({
@@ -98,10 +49,7 @@ export default function App() {
   const productFilters = [
     { key: 'all', label: 'All Catalog' },
     { key: 'phones', label: 'iPhones & Samsungs' },
-    { key: 'audio', label: 'Audio & Music' },
-    { key: 'wearables', label: 'Wearable Tech' },
-    { key: 'appliances', label: 'Appliances / White' },
-    { key: 'accessories', label: 'Original Plugs & Accessories' }
+    { key: 'appliances', label: 'Appliances & Power' }
   ];
 
   const filteredProducts = activeCategoryFilter === 'all'
@@ -109,20 +57,22 @@ export default function App() {
     : products.filter(p => p.category === activeCategoryFilter);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-800 overflow-x-hidden selection:bg-blue-500/10 selection:text-slate-900">
+    <div className="relative min-h-screen bg-slate-50/40 font-sans text-slate-800 overflow-x-hidden selection:bg-blue-500/10 selection:text-slate-900">
       
-      {/* Sticky Header Navigation */}
-      <Navbar
-        onOpenAdmin={() => setIsAdminOpen(true)}
-        isAdminLoggedIn={isAdminLoggedIn}
-        onLogoutAdmin={handleLogoutAdmin}
+      {/* Ambient Blurred Background of the brand's verified poster */}
+      <div 
+        className="fixed inset-0 w-full h-full -z-10 bg-cover bg-center pointer-events-none filter blur-[100px] opacity-[0.14] saturate-150 transform scale-110"
+        style={{ backgroundImage: `url(${heroBannerImg})` }}
       />
+
+      {/* Sticky Header Navigation */}
+      <Navbar />
 
       {/* Hero Section */}
       <Hero />
 
       {/* Famous Brands ticker */}
-      <div className="py-8 bg-slate-50 border-y border-slate-150 relative z-10 overflow-hidden">
+      <div className="py-8 bg-white/60 backdrop-blur-md border-y border-slate-150 relative z-10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-5 italic">
             ⚡ PREMIUM BRANDS AVAILABLE & SWAPPABLE AT JMIRTH
@@ -142,13 +92,13 @@ export default function App() {
       </div>
 
       {/* FEATURED GADGETS SHOWROOM */}
-      <section id="products" className="py-24 bg-white relative overflow-hidden border-b border-slate-100">
+      <section id="products" className="py-24 relative overflow-hidden border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           {/* Products Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 text-left">
             <div className="space-y-4">
-              <div className="inline-flex items-center space-x-2 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full">
+              <div className="inline-flex items-center space-x-2 bg-blue-50/80 border border-blue-200 px-3 py-1.5 rounded-full backdrop-blur-sm">
                 <Sparkles className="w-3.5 h-3.5 text-blue-600" />
                 <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600 italic font-sans_bold">⭐️ JMirth Showroom</span>
               </div>
@@ -157,20 +107,9 @@ export default function App() {
                 <span className="text-blue-600">Swap Ready Stocks</span>
               </h2>
               <p className="text-slate-500 text-sm max-w-xl leading-relaxed font-sans">
-                Explore premium electronics and genuine devices. We do not engage in fake stock checkers or artificial counters — just trusted Lagostian inventory.
+                Explore premium electronics and genuine devices. We do not engage in fake stock checkers or artificial counters — just trusted genuine inventory.
               </p>
             </div>
-
-            {/* Admin Add Shortcut if active */}
-            {isAdminLoggedIn && (
-              <button
-                id="admin-add-prod-shortcut"
-                onClick={() => setIsAdminOpen(true)}
-                className="p-3.5 px-5 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer text-xs font-bold uppercase tracking-wider flex items-center space-x-2 shrink-0 shadow-sm"
-              >
-                <span>Add Product</span>
-              </button>
-            )}
           </div>
 
           {/* Catalog Filter Buttons */}
@@ -182,7 +121,7 @@ export default function App() {
                 className={`py-2.5 px-4 rounded-xl text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap border cursor-pointer ${
                   activeCategoryFilter === flt.key
                     ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
-                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-350 hover:bg-slate-100'
+                    : 'bg-white/80 border-slate-200 text-slate-600 hover:border-slate-350 hover:bg-slate-100'
                 }`}
               >
                 {flt.label}
@@ -191,7 +130,7 @@ export default function App() {
           </div>
 
           {/* Products Grid Wrapper */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch max-w-5xl mx-auto">
             <AnimatePresence mode="popLayout">
               {filteredProducts.map((product) => (
                 <ProductCard
@@ -204,7 +143,7 @@ export default function App() {
           </div>
 
           {filteredProducts.length === 0 && (
-            <div className="py-20 text-center rounded-3xl bg-slate-50 border border-slate-250 max-w-sm mx-auto">
+            <div className="py-20 text-center rounded-3xl bg-white/85 backdrop-blur-sm border border-slate-250 max-w-sm mx-auto">
               <span className="text-sm text-slate-500 italic block font-sans">No items matched the specific filters right now.</span>
               <button
                 onClick={() => setActiveCategoryFilter('all')}
@@ -215,83 +154,93 @@ export default function App() {
             </div>
           )}
 
+          {/* Premium "Contact Us to Find Your Gadget" Call To Action Banner */}
+          <div className="mt-16 p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 text-white flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-lg hover:shadow-xl transition-all border border-blue-400/20">
+            <div className="absolute top-[-50%] left-[-10%] w-72 h-72 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
+            <div className="text-left relative z-10 space-y-2 max-w-xl">
+              <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight font-sans">Can't find your desired gadget?</h3>
+              <p className="text-xs sm:text-sm text-blue-50/90 leading-relaxed font-sans font-medium">
+                We handle specialty orders! Tell our customer assistants the exact specifications, color, and grade of the phone, smartwatch, accessory, or appliance you need and we'll source it directly for you.
+              </p>
+            </div>
+            <a
+              href={`https://wa.me/2349061563862?text=${encodeURIComponent("Hello! I couldn't find my desired gadget in your catalog. Can you help me find it?")}`}
+              target="_blank"
+              rel="noreferrer"
+              className="relative z-10 shrink-0 px-6 sm:px-8 py-3.5 sm:py-4 bg-white text-blue-700 font-extrabold text-xs sm:text-sm uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all hover:scale-105 active:scale-95 shadow-md flex items-center space-x-2 cursor-pointer"
+            >
+              <span>Contact us to find your gadget</span>
+              <MessageCircle className="w-4 h-4 fill-blue-700 text-white" />
+            </a>
+          </div>
+
         </div>
       </section>
-
-      {/* SERVICES SUITE */}
-      <Services />
-
-      {/* SWAPPING & CALCULATOR ESTIMATOR PANEL */}
-      <SwapCalculator />
 
       {/* ABOUT & VALUES */}
       <About />
 
-      {/* VISUAL SHOWROOM GALLERY */}
-      <GallerySection items={gallery} />
-
-      {/* CONTACT ZONE & FORM */}
-      <ContactSection />
-
       {/* FOOTER AREA */}
-      <footer className="bg-slate-900 border-t border-slate-850 py-16 relative z-10 text-slate-400 text-xs">
+      <footer className="bg-slate-950 text-slate-400 border-t border-slate-900 py-16 relative z-10 text-xs font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 md:grid-cols-12 mb-10 pb-10 border-b border-slate-800 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-900 text-left">
             
+            {/* Column 1: Brand Info */}
             <div className="md:col-span-5 space-y-4">
               <div className="flex items-center space-x-3">
-                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-extrabold text-xs">
+                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-black text-xs">
                   JM
                 </div>
                 <div>
-                  <h4 className="text-white font-bold tracking-tight text-sm">JMirth Gadget Haven</h4>
-                  <p className="text-[10px] text-slate-500 uppercase font-mono font-bold">Nigeria No. 1 Tested Haven</p>
+                  <h4 className="text-white font-bold tracking-tight text-sm font-sans">JMirth Gadget Haven</h4>
+                  <p className="text-[10px] text-slate-500 uppercase font-mono tracking-wider font-bold">No.1 Best Quality Haven</p>
                 </div>
               </div>
-              <p className="max-w-sm leading-relaxed text-slate-400 font-sans text-xs">
-                Premium electronics, phone trading, and appliance vendor base operating in Lagos, Nigeria. We specialize in genuine laptops, smart devices, audio accessories, and physical-grading swaps.
+              <p className="max-w-sm text-slate-400 leading-relaxed">
+                Elite online premium smartphone and accessory vendor base. We specialize in genuine smart devices, phone trade-ins, and high-quality gadget upgrades.
               </p>
             </div>
 
-            <div className="md:col-span-3 space-y-3">
-              <h5 className="text-white font-bold uppercase tracking-wider text-[10px] font-sans">Quick Navigation</h5>
-              <div className="grid grid-cols-2 gap-2 text-[11px]">
-                <a href="#products" className="hover:text-blue-400 transition-all font-sans font-medium">Showroom</a>
-                <a href="#services" className="hover:text-blue-400 transition-all font-sans font-medium">Our Services</a>
-                <a href="#swap" className="hover:text-blue-400 transition-all font-sans font-medium">Calculator</a>
-                <a href="#about" className="hover:text-blue-400 transition-all font-sans font-medium">About Store</a>
-                <a href="#gallery" className="hover:text-blue-400 transition-all font-sans font-medium">Our Gallery</a>
-                <a href="#contact" className="hover:text-blue-400 transition-all font-sans font-medium">Contact Hub</a>
+            {/* Column 2: Navigation Links */}
+            <div className="md:col-span-3 space-y-4">
+              <h5 className="text-white font-semibold uppercase tracking-wider text-[10px]">Explore Shop</h5>
+              <div className="flex flex-col space-y-2.5">
+                <a href="#home" className="hover:text-blue-400 transition-colors font-sans">Home</a>
+                <a href="#about" className="hover:text-blue-400 transition-colors font-sans font-medium">About Us</a>
+                <a 
+                  href="https://www.instagram.com/j_mirth_gadget?igsh=MWhkZ2dzM3N6bjVraQ==" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center space-x-1.5 hover:text-pink-400 transition-colors font-sans"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
+                  <span>Visit our Instagram</span>
+                </a>
               </div>
             </div>
 
-            <div className="md:col-span-4 space-y-3">
-              <h5 className="text-white font-bold uppercase tracking-wider text-[10px] font-sans font-sans">Lagos Store Office & Support</h5>
+            {/* Column 3: Contact Details */}
+            <div className="md:col-span-4 space-y-4">
+              <h5 className="text-white font-semibold uppercase tracking-wider text-[10px]">Customer Support</h5>
               <div className="space-y-2">
-                <span className="block text-slate-350">📍 Lagos State, Nigeria</span>
-                <span className="block font-bold text-white">💬 Tel/WhatsApp Support: +234 906 156 3862</span>
-                <span className="block text-[10px] text-slate-500 font-sans leading-relaxed">
-                  JMirth is structured with absolute quality checks and real-time physical grading processes. WhatsApp messages are reviewed instantly.
-                </span>
+                <span className="block font-bold text-white text-[13px] hover:text-blue-400 transition-colors">Tel/WhatsApp: +234 906 156 3862</span>
+                <p className="text-[11px] text-slate-500 leading-relaxed font-sans">
+                  JMirth is structured with absolute quality checks and swift client coordination. Simply message us directly on WhatsApp to coordinate your orders and swaps.
+                </p>
               </div>
             </div>
 
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-              <p className="text-[11px] text-slate-500 font-sans">
-                &copy; {new Date().getFullYear()} JMirth Gadget Haven. All Rights Reserved. Fully Certified Premium Electronics Retailer.
-              </p>
-            </div>
-
-            <div className="flex items-center space-x-2 text-[10px] text-slate-550">
-              <span className="font-sans">Operational Status:</span>
-              <span className="flex h-2 w-2 rounded-full bg-green-500"></span>
-              <span className="text-green-400 font-mono tracking-wide font-bold">Assistants Online</span>
-            </div>
+          {/* Bottom Bar */}
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
+            <p className="text-slate-500 text-[11px] font-sans">
+              &copy; {new Date().getFullYear()} JMirth Gadget Haven. All Rights Reserved. Fully Certified Premium Online Retailer.
+            </p>
+            <p className="text-[10px] text-slate-600 font-medium">
+              100% Satisfaction Guaranteed
+            </p>
           </div>
-
         </div>
       </footer>
 
@@ -326,22 +275,6 @@ export default function App() {
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
       />
-
-      {/* SECURE ADMIN CONTROL PANEL PORTAL */}
-      {isAdminOpen && (
-        <AdminPanel
-          products={products}
-          gallery={gallery}
-          onAddProduct={handleAddProduct}
-          onUpdateProduct={handleUpdateProduct}
-          onDeleteProduct={handleDeleteProduct}
-          onAddGallery={handleAddGalleryItem}
-          onDeleteGallery={handleDeleteGalleryItem}
-          onClose={() => setIsAdminOpen(false)}
-          isAdminLoggedIn={isAdminLoggedIn}
-          onLoginSuccess={() => setIsAdminLoggedIn(true)}
-        />
-      )}
 
     </div>
   );

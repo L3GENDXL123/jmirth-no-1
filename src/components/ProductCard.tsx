@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { MessageCircle, Info, RefreshCw } from 'lucide-react';
 import { Product } from '../types';
 
@@ -11,6 +11,46 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, onSelectProduct }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [activeImgIndex, setActiveImgIndex] = useState(0);
+
+  const imagesList = product.images && product.images.length > 0 ? product.images : [product.image];
+  const currentImage = imagesList[activeImgIndex] || product.image;
+
+  // Motion Values for dynamically calculated tilt
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Springy outputs for tilt rotation along X and Y axes
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), { damping: 20, stiffness: 150 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), { damping: 20, stiffness: 150 });
+  
+  // Springy scale factor for standard feedback
+  const cardScale = useSpring(1, { damping: 15, stiffness: 200 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    // Normalize coordinates to ranges from -0.5 to 0.5
+    const computedX = (e.clientX - rect.left) / width - 0.5;
+    const computedY = (e.clientY - rect.top) / height - 0.5;
+
+    mouseX.set(computedX);
+    mouseY.set(computedY);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    cardScale.set(1.03); // Sleek subtle scaling
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    cardScale.set(1);
+    mouseX.set(0);
+    mouseY.set(0);
+  };
 
   const handleWAInquiry = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent opening details modal if clicking the direct CTA button
@@ -26,10 +66,18 @@ export default function ProductCard({ product, onSelectProduct }: ProductCardPro
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.25 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onClick={() => onSelectProduct(product)}
-      className="bg-white text-left rounded-3xl overflow-hidden cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_15px_40px_rgba(0,90,240,0.08)] border border-slate-205/80 group relative flex flex-col h-full hover:-translate-y-1.5 transition-all duration-300 ease-out"
+      style={{
+        rotateX,
+        rotateY,
+        scale: cardScale,
+        transformStyle: 'preserve-3d',
+        perspective: 1000
+      }}
+      className="bg-white text-left rounded-3xl overflow-hidden cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(0,90,240,0.12)] border border-slate-205/80 group relative flex flex-col h-full transform-gpu"
     >
       {/* Swap Eligibility Badge */}
       {product.isSwapEligible && (
@@ -42,13 +90,45 @@ export default function ProductCard({ product, onSelectProduct }: ProductCardPro
       {/* Product Image Stage */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-50 border-b border-slate-100">
         <img
-          src={product.image}
+          src={currentImage}
           alt={product.name}
           referrerPolicy="no-referrer"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out select-none"
         />
         {/* Decorative glass glow gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+        {/* Smart Multiple Images Thumbnail Selectors directly on the card! */}
+        {imagesList.length > 1 && (
+          <div 
+            onClick={(e) => e.stopPropagation()} 
+            className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 px-1 py-1 bg-white/95 backdrop-blur-md border border-slate-200/60 rounded-xl shadow-lg cursor-default"
+          >
+            {imagesList.map((img, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImgIndex(idx);
+                }}
+                className={`relative w-6 h-6 rounded-md overflow-hidden border transition-all duration-155 cursor-pointer ${
+                  activeImgIndex === idx
+                    ? 'border-blue-600 ring-2 ring-blue-500/15 scale-105'
+                    : 'border-slate-200 hover:border-slate-350 opacity-80 hover:opacity-100'
+                }`}
+                title={product.id === 'p3' ? ['All Catalog', 'Fan', 'Iron', 'AC'][idx] : `Part #${idx + 1}`}
+              >
+                <img
+                  src={img}
+                  alt=""
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover select-none pointer-events-none"
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Main Metadata */}

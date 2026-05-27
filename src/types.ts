@@ -5,6 +5,7 @@ export interface Product {
   description: string;
   price?: string; // Optional: can be a price range or exact e.g., "₦850,000" or "Contact for Best Price"
   image: string;
+  images?: string[];
   features: string[];
   isSwapEligible: boolean;
   specifications?: Record<string, string>;

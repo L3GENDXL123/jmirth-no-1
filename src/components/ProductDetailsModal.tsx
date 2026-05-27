@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, MessageCircle, HeartHandshake, ShieldCheck, CheckCircle2, RefreshCw } from 'lucide-react';
 import { Product } from '../types';
@@ -11,15 +11,42 @@ interface ProductDetailsModalProps {
 export default function ProductDetailsModal({ product, onClose }: ProductDetailsModalProps) {
   if (!product) return null;
 
+  const [activeImgIndex, setActiveImgIndex] = useState(0);
+
+  // Reset active image index whenever a different product is opened
+  useEffect(() => {
+    setActiveImgIndex(0);
+  }, [product?.id]);
+
   const handleWAInquiry = () => {
+    const listImagesText = product.images && product.images.length > 0
+      ? `\nImage selected: Image #${activeImgIndex + 1}`
+      : "";
     const message = `Hi JMirth Gadget Haven, I am interested in inquiring about the details, official availability, and premium pricing/swap value of:
 
-Product: ${product.name}
+Product: ${product.name}${listImagesText}
 Category: ${product.category.toUpperCase()}
 
 Please let me know if you support swaps and what the trade-in processes are. Thank you!`;
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/2349061563862?text=${encoded}`, '_blank');
+  };
+
+  const imagesList = product.images && product.images.length > 0 ? product.images : [product.image];
+  const currentImage = imagesList[activeImgIndex] || product.image;
+
+  // Let's create beautiful descriptive labels for the Home Appliances images to assist the customer
+  const getImageLabel = (index: number) => {
+    if (product.id === 'p3') {
+      const labels = [
+        'Premium Combo Catalog',
+        'Digital standing Fan',
+        'Advanced steam pressing Iron',
+        'Sleek Air Conditioner'
+      ];
+      return labels[index] || `Appliance #${index + 1}`;
+    }
+    return `View #${index + 1}`;
   };
 
   return (
@@ -62,7 +89,7 @@ Please let me know if you support swaps and what the trade-in processes are. Tha
               <div className="space-y-4">
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 border border-slate-205">
                   <img
-                    src={product.image}
+                    src={currentImage}
                     alt={product.name}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover select-none"
@@ -74,6 +101,39 @@ Please let me know if you support swaps and what the trade-in processes are. Tha
                     </div>
                   )}
                 </div>
+
+                {/* Multiple Images Thumbnails Carousel/Selector */}
+                {imagesList.length > 1 && (
+                  <div className="space-y-2">
+                    <span className="text-[9px] text-slate-450 uppercase font-sans tracking-widest block font-bold">
+                      Available Items in Card (Click to preview)
+                    </span>
+                    <div className="grid grid-cols-4 gap-2">
+                      {imagesList.map((img, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setActiveImgIndex(idx)}
+                          className={`relative aspect-square rounded-xl overflow-hidden border transition-all duration-150 cursor-pointer ${
+                            activeImgIndex === idx
+                              ? 'border-blue-600 ring-2 ring-blue-500/25 shadow-md scale-95'
+                              : 'border-slate-200 hover:border-slate-300 opacity-80 hover:opacity-100'
+                          }`}
+                        >
+                          <img
+                            src={img}
+                            alt={getImageLabel(idx)}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover select-none pointer-events-none"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                    {/* Active Image Label Badge */}
+                    <div className="px-3 py-1.5 bg-slate-50 border border-slate-200/80 rounded-xl text-center text-[10px] text-slate-650 font-bold uppercase tracking-wider">
+                      Item Preview: <span className="text-blue-600 font-extrabold">{getImageLabel(activeImgIndex)}</span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Trust assurances */}
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/60 space-y-3">

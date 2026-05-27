@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Shield, MessageCircle, Settings } from 'lucide-react';
+import { Menu, X, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import heroLogoImg from '../assets/images/hero_banner_1779826991927.png';
 
-interface NavbarProps {
-  onOpenAdmin: () => void;
-  isAdminLoggedIn: boolean;
-  onLogoutAdmin: () => void;
-}
-
-export default function Navbar({ onOpenAdmin, isAdminLoggedIn, onLogoutAdmin }: NavbarProps) {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -22,12 +17,7 @@ export default function Navbar({ onOpenAdmin, isAdminLoggedIn, onLogoutAdmin }: 
 
   const menuItems = [
     { label: 'Home', href: '#home' },
-    { label: 'Showroom', href: '#products' },
-    { label: 'Our Services', href: '#services' },
-    { label: 'Device Swap', href: '#swap' },
     { label: 'About Us', href: '#about' },
-    { label: 'Gallery', href: '#gallery' },
-    { label: 'Contact', href: '#contact' },
   ];
 
   return (
@@ -44,8 +34,8 @@ export default function Navbar({ onOpenAdmin, isAdminLoggedIn, onLogoutAdmin }: 
           <div className="flex items-center justify-between">
             {/* Logo */}
             <a href="#home" className="flex items-center space-x-3 group text-left">
-              <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-blue-600 text-white shadow-sm transition-all duration-300">
-                <span className="text-lg font-bold font-sans tracking-tighter">JM</span>
+              <div className="relative flex items-center justify-center w-12 h-12 rounded-xl overflow-hidden bg-slate-50 border border-slate-150 shadow-sm transition-all duration-300">
+                <img src={heroLogoImg} alt="JMirth logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               </div>
               <div>
                 <h1 className="text-base sm:text-lg font-black tracking-tight text-slate-900 flex items-center gap-1.5 font-sans">
@@ -74,26 +64,6 @@ export default function Navbar({ onOpenAdmin, isAdminLoggedIn, onLogoutAdmin }: 
 
             {/* CTA & Admin Trigger */}
             <div className="hidden md:flex items-center space-x-3">
-              {isAdminLoggedIn && (
-                <button
-                  id="admin-logout-btn"
-                  onClick={onLogoutAdmin}
-                  className="flex items-center space-x-1 px-3 py-2 rounded-xl border border-red-200 bg-red-50 text-red-600 text-xs font-bold uppercase tracking-wider hover:bg-red-100 hover:text-red-700 transition-colors cursor-pointer"
-                >
-                  <span>Logout</span>
-                </button>
-              )}
-              
-              <button
-                id="admin-portal-btn"
-                onClick={onOpenAdmin}
-                className="flex items-center space-x-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 text-xs font-bold uppercase tracking-wider hover:bg-slate-100 hover:text-slate-900 transition-all cursor-pointer"
-                title="Manage Shop Inventory (CMS)"
-              >
-                <Settings className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-600 shrink-0" />
-                <span>{isAdminLoggedIn ? 'Dashboard' : 'Store Admin'}</span>
-              </button>
-
               <a
                 href="https://wa.me/2349061563862"
                 target="_blank"
@@ -107,13 +77,6 @@ export default function Navbar({ onOpenAdmin, isAdminLoggedIn, onLogoutAdmin }: 
 
             {/* Mobile Menu Action Trigger */}
             <div className="lg:hidden flex items-center space-x-2">
-              <button
-                id="mobile-admin-btn"
-                onClick={onOpenAdmin}
-                className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-blue-600"
-              >
-                <Settings className="w-4 h-4" />
-              </button>
               <button
                 id="mobile-menu-toggle"
                 onClick={() => setIsOpen(!isOpen)}
@@ -146,17 +109,6 @@ export default function Navbar({ onOpenAdmin, isAdminLoggedIn, onLogoutAdmin }: 
                   </a>
                 ))}
                 <div className="pt-4 border-t border-slate-100 flex flex-col space-y-2 px-4">
-                  {isAdminLoggedIn && (
-                    <button
-                      onClick={() => {
-                        onLogoutAdmin();
-                        setIsOpen(false);
-                      }}
-                      className="w-full text-center py-2.5 px-4 rounded-xl border border-red-200 bg-red-50 text-red-600 text-xs font-bold uppercase tracking-wider cursor-pointer"
-                    >
-                      Logout Admin Mode
-                    </button>
-                  )}
                   <a
                     href="https://wa.me/2349061563862"
                     target="_blank"

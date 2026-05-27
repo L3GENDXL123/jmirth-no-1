@@ -47,13 +47,13 @@ export default function About() {
 
             <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed font-sans">
               <p>
-                At <span className="text-slate-900 font-bold">JMirth Gadget Haven</span>, we recognize that acquiring a premium smartphone, audio gear, or home appliance is a significant financial investment. That is why we operate with absolute transparency, quality assurance, and robust, reliable client care.
+                At <span className="text-slate-900 font-bold">JMirth Gadget Haven</span>, we recognize that acquiring a premium smartphone or accessory is a significant financial investment. That is why we operate with absolute transparency, quality assurance, and robust, reliable client care as an elite online shop.
               </p>
               <p>
-                From our physical hub in Lagos, Nigeria, we specialize in sourcing genuine electronics at standard, budget-conscious price segments. Whether you are looking to purchase direct, trade in your current model, or arrange a swift device swap, we handle your request in real time.
+                As a premier digital showroom, we specialize in sourcing genuine, high-grade devices at standard, budget-conscious price segments. Whether you are looking to purchase direct or arrange a swap, we handle your request in real-time.
               </p>
               <p>
-                We do not deal in clones or low-tier copies. Every brick-and-mortar deal and digital transaction is backed by our direct customer satisfaction policy.
+                We do not deal in clones or low-tier copies. Every order is backed by our direct customer satisfaction guarantee, bringing the best quality devices straight to your hands with zero vendor delays.
               </p>
             </div>
 

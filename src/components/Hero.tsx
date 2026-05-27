@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { MessageCircle, ArrowUpRight, ShieldCheck, RefreshCw, Layers } from 'lucide-react';
-import heroBannerImg from '../assets/images/hero_banner_1779822364261.png';
+import heroBannerImg from '../assets/images/hero_banner_1779826991927.png';
 
 export default function Hero() {
   const handleWAInquiry = (purpose: string) => {
@@ -32,14 +32,6 @@ export default function Hero() {
           {/* Hero Left Content */}
           <div className="lg:col-span-7 flex flex-col text-left space-y-8">
             
-            {/* Soft Premium trust badge with glow */}
-            <div className="mb-1">
-              <span className="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-gradient-to-r from-blue-50 to-[#f4f8ff] border border-blue-200/60 text-[#005af0] text-xs font-bold tracking-wider rounded-full uppercase shadow-[0_2px_10px_rgba(37,99,235,0.05)]">
-                <span className="h-2 w-2 rounded-full bg-blue-600 animate-pulse ring-4 ring-blue-500/20"></span>
-                <span>Nigeria’s Premier Verified Tech Showroom</span>
-              </span>
-            </div>
-
             {/* Main Branding Title */}
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight text-slate-900 uppercase text-left font-sans">
@@ -51,7 +43,7 @@ export default function Hero() {
 
             {/* Bio/Subtitle */}
             <p className="text-sm sm:text-base text-slate-650 max-w-xl leading-relaxed font-sans">
-              Experience the Lagos Gadget Hub benchmarked for performance. Genuine devices, transparent device grading, same-day trade-in values, and responsive support.
+              Quality phones, gadgets, solar & more appliances,all in one place. Buy, sell, and trade with ease at JMirth Gadget Haven.
             </p>
 
             {/* WhatsApp Focused Action Buttons - Styled beautifully */}
@@ -59,19 +51,11 @@ export default function Hero() {
               <button
                 id="hero-order-now-btn"
                 onClick={() => handleWAInquiry('order')}
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs uppercase tracking-widest rounded-2xl hover:from-blue-700 hover:to-indigo-700 hover:shadow-[0_8px_30px_rgba(0,90,240,0.25)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-center flex items-center justify-center space-x-2.5 duration-200 cursor-pointer active:scale-95 shadow-lg shadow-blue-500/20"
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs uppercase tracking-widest rounded-2xl hover:from-blue-700 hover:to-indigo-700 hover:shadow-[0_8px_30px_rgba(0,90,240,0.25)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-center flex items-center justify-center space-x-2.5 duration-200 cursor-pointer active:scale-95 shadow-lg shadow-blue-500/20 w-fit"
               >
                 <MessageCircle className="w-4 h-4 fill-white text-blue-600 mr-1" />
                 <span>Order via WhatsApp</span>
               </button>
-
-              <a
-                href="#products"
-                className="px-8 py-4 bg-white/80 backdrop-blur-md border border-slate-205/80 text-slate-800 font-bold text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-50 hover:border-blue-300 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-center flex items-center justify-center space-x-2 duration-200 cursor-pointer"
-              >
-                <span>View Live Showroom</span>
-                <ArrowUpRight className="w-4 h-4 text-[#005af0]" />
-              </a>
             </div>
 
             {/* Quick trust proofs with updated contrast and margins */}
@@ -85,8 +69,8 @@ export default function Hero() {
                 <span className="text-[11px] text-slate-500 font-bold uppercase tracking-wider font-sans">Device Swap</span>
               </div>
               <div className="text-left border-l border-slate-150 pl-4">
-                <span className="block text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent font-sans">Fast</span>
-                <span className="text-[11px] text-slate-500 font-bold uppercase tracking-wider font-sans">Lagos Delivery</span>
+                <span className="block text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent font-sans">Nationwide</span>
+                <span className="text-[11px] text-slate-500 font-bold uppercase tracking-wider font-sans">Fast Delivery</span>
               </div>
             </div>
 
