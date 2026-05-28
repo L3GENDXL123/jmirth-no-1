@@ -152,7 +152,7 @@ Please let me know if you support swaps and what the trade-in processes are. Tha
               <div className="space-y-6">
                 <div>
                   <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded inline-block mb-3 border border-blue-100">
-                    ⭐️ {product.category.toUpperCase()}
+                    {product.category.toUpperCase()}
                   </span>
                   
                   <h2 className="text-xl sm:text-2xl font-bold uppercase text-slate-900 tracking-tight leading-tight">

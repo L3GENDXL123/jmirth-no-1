@@ -75,7 +75,7 @@ export default function App() {
       <div className="py-8 bg-white/60 backdrop-blur-md border-y border-slate-150 relative z-10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-5 italic">
-            ⚡ PREMIUM BRANDS AVAILABLE & SWAPPABLE AT JMIRTH
+            PREMIUM BRANDS AVAILABLE & SWAPPABLE AT JMIRTH
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 md:gap-16 opacity-90">
             {FAMOUS_BRANDS.map((b) => (
@@ -83,7 +83,7 @@ export default function App() {
                 key={b.name}
                 className="flex items-center space-x-2 text-slate-600 font-bold hover:text-blue-600 transition-colors duration-200 select-none pb-1"
               >
-                <span className="text-lg">{b.logo}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
                 <span className="font-sans text-xs uppercase tracking-wide">{b.name}</span>
               </div>
             ))}
@@ -100,7 +100,7 @@ export default function App() {
             <div className="space-y-4">
               <div className="inline-flex items-center space-x-2 bg-blue-50/80 border border-blue-200 px-3 py-1.5 rounded-full backdrop-blur-sm">
                 <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600 italic font-sans_bold">⭐️ JMirth Showroom</span>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600 italic font-sans_bold">JMirth Showroom</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 uppercase">
                 Featured Brand New & <br />

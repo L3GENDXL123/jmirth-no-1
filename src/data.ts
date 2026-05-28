@@ -163,9 +163,9 @@ export const INITIAL_GALLERY: GalleryItem[] = [
   }
 ];
 export const FAMOUS_BRANDS = [
-  { name: 'Apple', logo: '🍎' },
-  { name: 'Samsung', logo: '📱' },
-  { name: 'Xiaomi', logo: '🍊' },
-  { name: 'Hisense', logo: '🥶' },
-  { name: 'LG', logo: '🌟' }
+  { name: 'Apple' },
+  { name: 'Samsung' },
+  { name: 'Xiaomi' },
+  { name: 'Hisense' },
+  { name: 'LG' }
 ];

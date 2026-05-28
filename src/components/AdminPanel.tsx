@@ -262,7 +262,7 @@ export default function AdminPanel({
                     {/* Add / Edit Form Column */}
                     <div className="md:col-span-5 bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4">
                       <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 font-sans">
-                        {editingProductId ? '✏️ Edit Product details' : '➕ Add Store Gadget'}
+                        {editingProductId ? 'Edit Product Details' : 'Add Store Gadget'}
                       </h4>
 
                       <form onSubmit={handleSaveProduct} className="space-y-4">
@@ -423,7 +423,7 @@ export default function AdminPanel({
                     {/* Add Gallery visual form */}
                     <div className="md:col-span-5 bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4">
                       <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 font-sans">
-                        ➕ Add Showroom Photo Log
+                        Add Showroom Photo Log
                       </h4>
 
                       <form onSubmit={handleSaveGalleryItem} className="space-y-4">

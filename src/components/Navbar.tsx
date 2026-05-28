@@ -34,7 +34,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <a href="#home" className="flex items-center space-x-3 group text-left">
-              <div className="relative flex items-center justify-center w-12 h-12 rounded-xl overflow-hidden bg-slate-50 border border-slate-150 shadow-sm transition-all duration-300">
+              <div className="relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden bg-slate-50 border border-slate-150 shadow-sm transition-all duration-300">
                 <img src={heroLogoImg} alt="JMirth logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               </div>
               <div>

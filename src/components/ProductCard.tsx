@@ -61,7 +61,6 @@ export default function ProductCard({ product, onSelectProduct }: ProductCardPro
 
   return (
     <motion.div
-      layout
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
@@ -98,11 +97,11 @@ export default function ProductCard({ product, onSelectProduct }: ProductCardPro
         {/* Decorative glass glow gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-        {/* Smart Multiple Images Thumbnail Selectors directly on the card! */}
+        {/* Smart Multiple Images Thumbnail Selectors - hidden on mobile screens to prevent cluttering */}
         {imagesList.length > 1 && (
           <div 
             onClick={(e) => e.stopPropagation()} 
-            className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 px-1 py-1 bg-white/95 backdrop-blur-md border border-slate-200/60 rounded-xl shadow-lg cursor-default"
+            className="hidden md:flex absolute bottom-2.5 right-2.5 z-10 items-center gap-1 px-1 py-1 bg-white/95 backdrop-blur-md border border-slate-200/60 rounded-xl shadow-lg cursor-default"
           >
             {imagesList.map((img, idx) => (
               <button
@@ -152,38 +151,41 @@ export default function ProductCard({ product, onSelectProduct }: ProductCardPro
         <div className="space-y-1.5 flex-grow relative z-10">
           {product.features.slice(0, 2).map((feat, i) => (
             <div key={i} className="flex items-center text-xs text-slate-600 space-x-2 font-sans">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0 font-sans"></span>
               <span className="line-clamp-1 text-slate-600">{feat}</span>
             </div>
           ))}
         </div>
 
-        {/* Pricing Segment */}
-        <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between gap-1 relative z-10">
+        {/* Pricing & Direct Sparkle Inquiry Button */}
+        <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-1 relative z-10">
           <div className="min-w-0">
-            <span className="text-[9px] block text-slate-400 uppercase tracking-widest font-bold">Price Option</span>
-            <span className="text-xs font-bold text-[#005af0] tracking-tight truncate block group-hover:animate-pulse">
-              Ask about this product
+            <span className="text-[9px] block text-slate-400 uppercase tracking-widest font-bold font-sans">Pricing Status</span>
+            <span className="text-xs font-semibold text-[#005af0] tracking-tight truncate block group-hover:animate-pulse">
+              Request Stock Quote
             </span>
           </div>
           
           <button
-            onClick={() => onSelectProduct(product)}
-            className="py-1.5 px-3 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-600 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shrink-0"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelectProduct(product);
+            }}
+            className="py-1.5 px-3 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-600 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer shrink-0"
           >
-            <Info className="w-3.5 h-3.5 text-slate-550" />
-            <span>Specs</span>
+            <Info className="w-3.5 h-3.5 text-slate-500" />
+            <span>Specifications</span>
           </button>
         </div>
 
-        {/* WhatsApp Inquiry CTA */}
+        {/* Main Integrated WhatsApp Inquiry CTA */}
         <button
           id={`product-wa-btn-${product.id}`}
           onClick={handleWAInquiry}
-          className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/10 transition-all text-xs font-bold text-center uppercase tracking-widest duration-200 transform active:scale-95 cursor-pointer"
+          className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-sm transition-all text-xs font-bold text-center uppercase tracking-widest duration-200 active:scale-95 cursor-pointer"
         >
           <MessageCircle className="w-4 h-4 fill-white text-blue-600 shrink-0" />
-          <span>Inquire Spec sheet</span>
+          <span>Inquire & Swap</span>
         </button>
       </div>
     </motion.div>

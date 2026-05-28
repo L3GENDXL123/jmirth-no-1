@@ -36,7 +36,7 @@ export default function About() {
             <div className="space-y-4">
               <div className="inline-flex items-center space-x-2 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full">
                 <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600 italic">⭐️ Who We Are</span>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600 italic font-sans">Who We Are</span>
               </div>
               
               <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 uppercase">
@@ -57,21 +57,21 @@ export default function About() {
               </p>
             </div>
 
-            {/* Quick badges under About text */}
-            <div className="grid grid-cols-2 gap-4 pt-6 border-t border-slate-200">
-              <div className="flex items-start space-x-3 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
-                <Award className="w-6 h-6 text-blue-600 shrink-0" />
+             {/* Quick badges under About text */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-6 border-t border-slate-200">
+              <div className="flex items-start space-x-3 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-blue-200/50 transition-all">
+                <Award className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0" />
                 <div className="text-left">
                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">100% Authentic</h4>
-                   <p className="text-[11px] text-slate-500 mt-1 leading-normal font-sans">Original brand warranties intact on brand-new devices.</p>
+                   <p className="text-[10px] sm:text-[11px] text-slate-500 mt-1 leading-normal font-sans">Original brand warranties intact on brand-new devices.</p>
                 </div>
               </div>
 
-              <div className="flex items-start space-x-3 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
-                <ShieldCheck className="w-6 h-6 text-blue-600 shrink-0" />
+              <div className="flex items-start space-x-3 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-blue-200/50 transition-all">
+                <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0" />
                 <div className="text-left">
                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Safe Swaps</h4>
-                   <p className="text-[11px] text-slate-500 mt-1 leading-normal font-sans font-sans">Graded thoroughly in real time for fair estimations.</p>
+                   <p className="text-[10px] sm:text-[11px] text-slate-500 mt-1 leading-normal font-sans">Graded thoroughly in real time for fair estimations.</p>
                 </div>
               </div>
             </div>
@@ -83,14 +83,14 @@ export default function About() {
             <div className="space-y-4">
               <div className="inline-flex items-center space-x-2 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full">
                 <span className="h-1.5 w-1.5 rounded-full bg-blue-600"></span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600 italic">⭐️ Why Choose Us</span>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600 italic font-sans">Why Choose Us</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 uppercase">
                 Core Commitments We Keep
               </h3>
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-3 sm:gap-4">
               {whyChooseUsList.map((item, idx) => {
                 const IconComponent = item.icon;
                 return (
@@ -100,14 +100,14 @@ export default function About() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.05 }}
-                    className="p-5 rounded-3xl bg-white border border-slate-200/80 shadow-sm transition-all flex items-start space-x-4 card-shadow-hover"
+                    className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/80 shadow-sm transition-all flex items-start space-x-3 sm:space-x-4 card-shadow-hover hover:border-blue-200/50"
                   >
-                    <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-105 text-blue-600 shrink-0">
+                    <div className="p-2 sm:p-2.5 rounded-xl bg-blue-50 border border-blue-105 text-blue-600 shrink-0">
                       <IconComponent className="w-5 h-5 shrink-0" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900">{item.title}</h4>
-                      <p className="text-xs text-slate-500 mt-1 leading-relaxed font-sans">{item.desc}</p>
+                      <h4 className="text-xs sm:text-sm font-bold text-slate-900">{item.title}</h4>
+                      <p className="text-[11px] sm:text-xs text-slate-500 mt-1 sm:mt-1.5 leading-relaxed font-sans">{item.desc}</p>
                     </div>
                   </motion.div>
                 );
