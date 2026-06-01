@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle } from 'lucide-react';
+import { Menu, X, MessageCircle, Instagram } from 'lucide-react';
+import { TiktokIcon } from './icons';
 import { motion, AnimatePresence } from 'motion/react';
 import heroLogoImg from '../assets/images/hero_banner_1779826991927.png';
 
@@ -65,6 +66,24 @@ export default function Navbar() {
             {/* CTA & Admin Trigger */}
             <div className="hidden md:flex items-center space-x-3">
               <a
+                href="https://www.instagram.com/j_mirth_gadget?igsh=MWhkZ2dzM3N6bjVraQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-xl bg-slate-50 border border-slate-150 text-slate-500 hover:text-pink-650 hover:border-pink-200 hover:bg-pink-50/50 transition-all duration-200"
+                title="Instagram Store"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a
+                href="https://www.tiktok.com/@j.mirth.gadget?_r=1&_t=ZS-96jiQveV4Ce"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-xl bg-slate-50 border border-slate-150 text-slate-500 hover:text-cyan-650 hover:border-cyan-200 hover:bg-cyan-50/50 transition-all duration-200"
+                title="TikTok Shop"
+              >
+                <TiktokIcon className="w-4 h-4" />
+              </a>
+              <a
                 href="https://wa.me/2349061563862"
                 target="_blank"
                 rel="noreferrer"
@@ -119,6 +138,28 @@ export default function Navbar() {
                     <MessageCircle className="w-4 h-4 fill-white text-blue-600" />
                     <span>WhatsApp Live Chat</span>
                   </a>
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <a
+                      href="https://www.instagram.com/j_mirth_gadget?igsh=MWhkZ2dzM3N6bjVraQ=="
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center justify-center space-x-1.5 py-2.5 px-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-wider text-center hover:text-pink-650 hover:bg-pink-50"
+                    >
+                      <Instagram className="w-3.5 h-3.5 text-pink-500" />
+                      <span>Instagram</span>
+                    </a>
+                    <a
+                      href="https://www.tiktok.com/@j.mirth.gadget?_r=1&_t=ZS-96jiQveV4Ce"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center justify-center space-x-1.5 py-2.5 px-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-wider text-center hover:text-cyan-650 hover:bg-cyan-50"
+                    >
+                      <TiktokIcon className="w-3.5 h-3.5 text-cyan-500" />
+                      <span>TikTok</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </motion.div>

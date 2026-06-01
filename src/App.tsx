@@ -7,6 +7,7 @@ import ProductCard from './components/ProductCard';
 import ProductDetailsModal from './components/ProductDetailsModal';
 import About from './components/About';
 import { MessageCircle, Sparkles, Instagram } from 'lucide-react';
+import { TiktokIcon } from './components/icons';
 import { AnimatePresence } from 'motion/react';
 import heroBannerImg from './assets/images/hero_banner_1779826991927.png';
 
@@ -215,6 +216,15 @@ export default function App() {
                 >
                   <Instagram className="w-3.5 h-3.5" />
                   <span>Visit our Instagram</span>
+                </a>
+                <a 
+                  href="https://www.tiktok.com/@j.mirth.gadget?_r=1&_t=ZS-96jiQveV4Ce" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center space-x-1.5 hover:text-cyan-400 transition-colors font-sans"
+                >
+                  <TiktokIcon className="w-3.5 h-3.5" />
+                  <span>Visit our TikTok</span>
                 </a>
               </div>
             </div>

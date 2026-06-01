@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { MessageCircle, ArrowUpRight, ShieldCheck, RefreshCw, Layers } from 'lucide-react';
+import { MessageCircle, ArrowUpRight, ShieldCheck, RefreshCw, Layers, Instagram } from 'lucide-react';
+import { TiktokIcon } from './icons';
 import heroBannerImg from '../assets/images/hero_banner_1779826991927.png';
 
 export default function Hero() {
@@ -47,7 +48,7 @@ export default function Hero() {
             </p>
 
             {/* WhatsApp Focused Action Buttons - Styled beautifully & made perfectly responsive */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-1 sm:pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1 sm:pt-2">
               <button
                 id="hero-order-now-btn"
                 onClick={() => handleWAInquiry('order')}
@@ -56,6 +57,26 @@ export default function Hero() {
                 <MessageCircle className="w-4 h-4 fill-white text-blue-600 mr-1 shrink-0" />
                 <span>Order via WhatsApp</span>
               </button>
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <a
+                  href="https://www.instagram.com/j_mirth_gadget?igsh=MWhkZ2dzM3N6bjVraQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 sm:flex-initial px-5 py-3.5 sm:py-4 rounded-2xl bg-white border border-slate-200 text-slate-700 font-bold text-xs uppercase tracking-widest hover:border-pink-300 hover:text-pink-600 hover:bg-pink-50/20 transition-all text-center flex items-center justify-center space-x-2 cursor-pointer shadow-sm hover:shadow-md"
+                >
+                  <Instagram className="w-4 h-4 text-pink-500 shrink-0" />
+                  <span>Instagram</span>
+                </a>
+                <a
+                  href="https://www.tiktok.com/@j.mirth.gadget?_r=1&_t=ZS-96jiQveV4Ce"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 sm:flex-initial px-5 py-3.5 sm:py-4 rounded-2xl bg-white border border-slate-200 text-slate-700 font-bold text-xs uppercase tracking-widest hover:border-cyan-300 hover:text-cyan-600 hover:bg-cyan-50/20 transition-all text-center flex items-center justify-center space-x-2 cursor-pointer shadow-sm hover:shadow-md"
+                >
+                  <TiktokIcon className="w-4 h-4 text-cyan-500 shrink-0" />
+                  <span>TikTok</span>
+                </a>
+              </div>
             </div>
 
             {/* Quick trust proofs with updated contrast and margins */}
